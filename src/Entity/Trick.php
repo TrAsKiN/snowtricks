@@ -19,7 +19,7 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $name;
 
     #[ORM\Column(type: 'text')]
@@ -31,8 +31,11 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tricks')]
     private ArrayCollection $tags;
 
-    #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick')]
+    #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick', orphanRemoval: true)]
     private ArrayCollection $media;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $slug;
 
     public function __construct()
     {
@@ -159,6 +162,18 @@ class Trick
         if ($this->media->removeElement($medium)) {
             $medium->removeTrick($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

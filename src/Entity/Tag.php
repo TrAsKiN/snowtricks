@@ -15,7 +15,7 @@ class Tag
     #[ORM\Column(type: 'integer')]
     private ?int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $name;
 
     #[ORM\ManyToMany(targetEntity: Trick::class, mappedBy: 'tags')]
