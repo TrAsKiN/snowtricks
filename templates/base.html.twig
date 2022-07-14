@@ -8,7 +8,35 @@
         {% endblock %}
     </head>
     <body>
+        <nav class="navbar fixed-top navbar-expand-lg bg-white">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarMenu">
+                    <a class="navbar-brand" href="{{ path('homepage') }}">SnowTricks</a>
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link{{ app.request.attributes.get('_route') == 'homepage' ? ' active' }}" href="{{ path('homepage') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('homepage') }}#tricks">Tricks</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Sign up</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         {% block body %}{% endblock %}
+        <hr class="mt-0">
+        <footer class="container py-4">
+            <p class="text-muted">Copyright &copy; {{ date('now')|date('Y') }}</p>
+        </footer>
         {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
         {% endblock %}

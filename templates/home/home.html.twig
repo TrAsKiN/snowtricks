@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur SnowTricks{% endblock %}
+
+{% block body %}
+    <a id="scroll-button" class="btn btn-dark position-fixed bottom-0 end-0 m-4" href="#tricks" role="button"><i class="bi bi-arrow-down"></i><i class="bi bi-arrow-up d-none"></i></a>
+    <div id="splash" class="container-fluid bg-info bg-opacity-25 p-5 vh-100 d-flex justify-content-center align-items-center">
+        <h1 class="display-1">Bienvenue sur SnowTricks</h1>
+    </div>
+    <div id="tricks" class="container bg-light py-3">
+        <div class="row row-cols-5 row-cols-sm-1 row-cols-md-2">
+            {% for trick in tricks %}
+                <div class="col card">
+                    <img src="https://picsum.photos/500/500" class="card-img-top" alt="">
+                    <div class="card-body d-flex">
+                        <h5 class="card-title">{{ trick.name }}</h5>
+                        {% if is_granted('ROLE_USER') %}
+                        <a href="#" class="card-link">Modifier</a>
+                        <a href="#" class="card-link">Supprimer</a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if not tricks %}
+            <p class="lead text-muted fst-italic text-center">Aucun trick à afficher.</p>
+        {% endif %}
+    </div>
+{% endblock %}
