@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MessageRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -16,7 +17,7 @@ class Message
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author;
+    private ?UserInterface $author;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'messages')]
     #[ORM\JoinColumn(nullable: false)]
@@ -33,12 +34,12 @@ class Message
         return $this->id;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): ?UserInterface
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(?UserInterface $author): self
     {
         $this->author = $author;
 

@@ -19,7 +19,7 @@ class Tag
     private ?string $name;
 
     #[ORM\ManyToMany(targetEntity: Trick::class, mappedBy: 'tags')]
-    private ArrayCollection $tricks;
+    private Collection $tricks;
 
     public function __construct()
     {
