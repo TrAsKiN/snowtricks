@@ -1,18 +1,10 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
-import 'bootstrap';
+import * as bootstrap from 'bootstrap';
 import 'bootstrap-icons/font/bootstrap-icons.scss';
 import './styles/app.scss';
-
-// start the Stimulus application
 import './bootstrap';
 
 let scrollButton = document.querySelector('#scroll-button');
-window.addEventListener('scroll', ev => {
+window.addEventListener('scroll', () => {
     if (window.scrollY >= 0 && window.scrollY < window.outerHeight / 2) {
         scrollButton.querySelector('.bi-arrow-down').classList.remove('d-none');
         scrollButton.querySelector('.bi-arrow-up').classList.add('d-none');
@@ -23,3 +15,7 @@ window.addEventListener('scroll', ev => {
         scrollButton.href = '#';
     }
 });
+
+const toastElList = document.querySelectorAll('.toast');
+const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl));
+toastList.forEach(toast => toast.show());
