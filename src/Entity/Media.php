@@ -18,7 +18,7 @@ class Media
     private ?int $id;
 
     #[ORM\ManyToMany(targetEntity: Trick::class, inversedBy: 'media')]
-    private ArrayCollection $trick;
+    private Collection $trick;
 
     public function __construct()
     {
