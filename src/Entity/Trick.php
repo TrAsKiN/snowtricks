@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\TrickRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[UniqueEntity(fields: ['name', 'slug'], message: "This name is already used by another Trick")]
 class Trick
 {
     #[ORM\Id]
@@ -17,31 +22,41 @@ class Trick
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $author;
+    private ?UserInterface $author;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Constraints\NotBlank]
     private ?string $name;
 
     #[ORM\Column(type: 'text')]
+    #[Constraints\NotBlank]
     private ?string $description;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Message::class, orphanRemoval: true)]
-    private ArrayCollection $messages;
+    private Collection $messages;
 
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tricks')]
-    private ArrayCollection $tags;
+    private Collection $tags;
 
     #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick', orphanRemoval: true)]
-    private ArrayCollection $media;
+    private Collection $media;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $slug;
+
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'now'])]
+    private ?DateTimeImmutable $createdAt;
+
+    #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'now'])]
+    private ?DateTimeImmutable $updatedAt;
 
     public function __construct()
     {
         $this->messages = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->media = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -49,12 +64,12 @@ class Trick
         return $this->id;
     }
 
-    public function getAuthor(): ?User
+    public function getAuthor(): ?UserInterface
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(?UserInterface $author): self
     {
         $this->author = $author;
 
@@ -106,7 +121,6 @@ class Trick
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
             if ($message->getTrick() === $this) {
                 $message->setTrick(null);
             }
@@ -174,6 +188,30 @@ class Trick
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
