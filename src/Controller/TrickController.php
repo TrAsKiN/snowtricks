@@ -63,7 +63,7 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $trick->setUpdatedAt(new DateTimeImmutable('now'));
+            $trick->setUpdatedAt(new DateTimeImmutable());
             $trickRepository->add($trick, true);
             $this->addFlash('success', "The Trick has been modified!");
             return $this->redirectToRoute('app_home', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
