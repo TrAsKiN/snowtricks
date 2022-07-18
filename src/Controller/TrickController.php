@@ -13,8 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-use function Symfony\Component\String\u;
-
 #[Route('/tricks')]
 class TrickController extends AbstractController
 {
@@ -31,7 +29,7 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $trick->setAuthor($this->getUser());
-            $trick->setSlug(u($slugger->slug($trick->getName()))->lower());
+            $trick->setSlug($slugger->slug($trick->getName())->lower());
             $trickRepository->add($trick, true);
             $this->addFlash('success', "The Trick has been created!");
             return $this->redirectToRoute('app_home', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
