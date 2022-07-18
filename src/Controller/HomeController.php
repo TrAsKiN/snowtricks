@@ -9,11 +9,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/', name: 'homepage', methods: ['GET'])]
+    #[Route('/', name: 'app_home', methods: ['GET'])]
     public function home(
         TrickRepository $trickRepository
     ): Response {
-        $tricks = $trickRepository->findAll();
+        $tricks = $trickRepository->findBy([], ['createdAt' => 'ASC', 'name' => 'ASC']);
         return $this->render('home/home.html.twig', compact('tricks'));
     }
 }
