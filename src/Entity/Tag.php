@@ -6,8 +6,10 @@ use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TagRepository::class)]
+#[UniqueEntity('name', message: "This name is already used by another Tag")]
 class Tag
 {
     #[ORM\Id]

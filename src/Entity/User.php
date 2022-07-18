@@ -7,10 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['username', 'email'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,16 +20,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Constraints\NotBlank]
+    #[Constraints\Unique]
     private ?string $username;
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Constraints\NotBlank]
+    #[Constraints\NotCompromisedPassword]
     private string $password;
 
-    #[ORM\Column(type: 'string', length: 32, nullable: true)]
+    #[ORM\Column(type: 'string', length: 32, unique: true, nullable: true)]
     private ?string $token;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Constraints\NotBlank]
+    #[Constraints\Email]
+    #[Constraints\Unique]
+    private ?string $email;
 
     public function getId(): ?int
     {
@@ -91,6 +102,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
 
         return $this;
     }

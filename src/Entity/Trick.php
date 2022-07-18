@@ -7,10 +7,12 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[UniqueEntity(fields: ['name', 'slug'], message: "This name is already used by another Trick")]
 class Trick
 {
     #[ORM\Id]
@@ -39,7 +41,7 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick', orphanRemoval: true)]
     private Collection $media;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     private ?string $slug;
 
     #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'now'])]
@@ -119,7 +121,6 @@ class Trick
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {
-            // set the owning side to null (unless already changed)
             if ($message->getTrick() === $this) {
                 $message->setTrick(null);
             }
