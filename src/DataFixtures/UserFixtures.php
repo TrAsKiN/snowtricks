@@ -24,6 +24,7 @@ class UserFixtures extends Fixture
                 $user,
                 '123456'
             ))
+            ->setEmail('moi@traskin.net')
         ;
         $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
