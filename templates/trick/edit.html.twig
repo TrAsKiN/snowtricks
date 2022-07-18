@@ -5,13 +5,10 @@
 {% block body %}
     <div class="container bg-light py-3 mt-5">
         <h1>Modifier un Trick</h1>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <div class="d-flex gap-1">
-            <button type="submit" class="btn btn-primary">Save</button>
-            {{ include('trick/_delete_form.html.twig') }}
-        </div>
-        {{ form_end(form) }}
-
+        {{ component('trick_form', {
+            isEditing: true,
+            trickForm: trick.id ? trick : null,
+            form: form
+        }) }}
     </div>
 {% endblock %}

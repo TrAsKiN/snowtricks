@@ -5,9 +5,8 @@
 {% block body %}
     <div class="container bg-light py-3 mt-5">
         <h1>Nouveau Trick</h1>
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <button type="submit" class="btn btn-primary">Save</button>
-        {{ form_end(form) }}
+        {{ component('trick_form', {
+            form: form
+        }) }}
     </div>
 {% endblock %}
