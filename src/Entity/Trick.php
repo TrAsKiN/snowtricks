@@ -38,7 +38,7 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tricks')]
     private Collection $tags;
 
-    #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick', orphanRemoval: true)]
+    #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick', cascade: ['persist'], orphanRemoval: true)]
     private Collection $media;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
