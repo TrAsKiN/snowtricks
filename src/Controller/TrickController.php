@@ -80,7 +80,7 @@ class TrickController extends AbstractController
         Trick $trick,
         TrickRepository $trickRepository
     ): Response {
-        if ($this->isCsrfTokenValid('delete' . $trick->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid(sprintf('delete%s', $trick->getId()), $request->request->get('_token'))) {
             $trickRepository->remove($trick, true);
             $this->addFlash('danger', "The Trick has been removed!");
         }
