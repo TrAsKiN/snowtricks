@@ -21,7 +21,9 @@
                             {% if is_granted('ROLE_USER') %}
                             <div class="position-absolute top-0 end-0 m-2 d-flex gap-1">
                                 <a href="{{ path('app_trick_edit', {'id': trick.id}) }}" class="card-link btn btn-secondary" style="z-index: 10;"><i class="bi bi-pen"></i></a>
-                                {{ include('trick/_delete_form.html.twig') }}
+                                {{ component('delete_modal', {
+                                    trick: trick
+                                }) }}
                             </div>
                             {% endif %}
                         </div>
