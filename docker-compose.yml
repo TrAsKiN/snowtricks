@@ -2,21 +2,6 @@ version: '3'
 
 services:
 
-  app:
-    build:
-      context: ./
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./:/var/www/
-      - ./apache.conf:/etc/apache2/sites-enabled/000-default.conf
-    working_dir: /var/www/
-    links:
-      - database
-    depends_on:
-      - database
-
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION}-alpine

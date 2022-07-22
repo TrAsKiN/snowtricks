@@ -6,6 +6,7 @@ use App\Entity\Tag;
 use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,18 +37,41 @@ class TrickType extends AbstractType
                 'multiple' => true,
             ])
             ->add('images', LiveCollectionType::class, [
-                'label' => 'Add images',
+                'label' => 'Add new images',
                 'entry_type' => ImageType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'mapped' => false,
+                'by_reference' => false,
+                'attr' => [
+                    'class' => 'd-flex row-cols-2 flex-wrap',
+                ],
+                'button_delete_options' => [
+                    'row_attr' => [
+                        'class' => 'ps-1 m-0',
+                    ],
+                ],
             ])
             ->add('videos', LiveCollectionType::class, [
-                'label' => 'Add videos',
+                'label' => 'Add new videos',
                 'entry_type' => VideoType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
                 'mapped' => false,
+                'by_reference' => false,
+                'attr' => [
+                    'class' => 'd-flex row-cols-2 flex-wrap',
+                ],
+                'button_delete_options' => [
+                    'row_attr' => [
+                        'class' => 'ps-1 m-0',
+                    ],
+                ],
+            ])
+            ->add('save', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ]
             ])
         ;
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {

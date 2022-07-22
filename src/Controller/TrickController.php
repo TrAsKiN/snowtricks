@@ -51,7 +51,7 @@ class TrickController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/{id}/edit', name: 'app_trick_edit', methods: ['GET', 'POST'])]
+    #[Route('/edit/{id}', name: 'app_trick_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request,
         Trick $trick,
@@ -74,7 +74,7 @@ class TrickController extends AbstractController
     }
 
     #[IsGranted('ROLE_USER')]
-    #[Route('/{id}', name: 'app_trick_delete', methods: ['POST'])]
+    #[Route('/delete/{id}', name: 'app_trick_delete', methods: ['POST'])]
     public function delete(
         Request $request,
         Trick $trick,

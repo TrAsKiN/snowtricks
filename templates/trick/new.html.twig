@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nouveau Trick &middot; {{ parent() }}{% endblock %}
+{% block title %}New Trick &middot; {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container bg-light py-3 mt-5">
-        <h1>Nouveau Trick</h1>
+    <div class="container bg-light px-0 pb-3 mt-5">
         {{ component('trick_form', {
+            trick: null,
             form: form
         }) }}
     </div>

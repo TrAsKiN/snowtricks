@@ -1,0 +1,18 @@
+<div class="d-flex row-cols-6 gap-2" {{ attributes }}>
+    {% for medium in media %}
+        {% if medium.file is defined %}
+            <div class="position-relative">
+                <img class="img-fluid" src="{{ asset('uploads/images/' ~ medium.file) }}" alt="Image {{ loop.index }}">
+                {{ component('delete_media_modal', {media: medium, isButton: true}) }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% for medium in media %}
+        {% if medium.youtube is defined %}
+            <div class="position-relative img-fluid">
+                {{ component('youtube', {video: medium }) }}
+                {{ component('delete_media_modal', {media: medium, isButton: true}) }}
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>

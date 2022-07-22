@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Twig;
+namespace App\Twig\Components;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
@@ -14,16 +14,14 @@ use Symfony\UX\LiveComponent\LiveCollectionTrait;
 #[AsLiveComponent('trick_form')]
 class TrickFormComponent extends AbstractController
 {
-    use LiveCollectionTrait;
     use DefaultActionTrait;
+    use LiveCollectionTrait;
 
-    #[LiveProp]
-    public ?Trick $trickForm = null;
-
-    public bool $isEditing = false;
+    #[LiveProp(fieldName: 'data')]
+    public ?Trick $trick = null;
 
     protected function instantiateForm(): FormInterface
     {
-        return $this->createForm(TrickType::class, $this->trickForm);
+        return $this->createForm(TrickType::class, $this->trick);
     }
 }

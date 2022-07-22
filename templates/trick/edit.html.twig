@@ -1,13 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier un Trick &middot; {{ parent() }}{% endblock %}
+{% block title %}{{ trick.name }} &middot; Edition &middot; {{ parent() }}{% endblock %}
 
 {% block body %}
-    <div class="container bg-light py-3 mt-5">
-        <h1>Modifier un Trick</h1>
+    <div class="container bg-light px-0 pb-3 mt-5">
         {{ component('trick_form', {
-            isEditing: true,
-            trickForm: trick.id ? trick : null,
+            trick: trick,
             form: form
         }) }}
     </div>
