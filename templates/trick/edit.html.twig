@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }} &middot; Edition &middot; {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container bg-light px-0 pb-3 mt-5">
+        {{ component('trick_form', {
+            trick: trick,
+            form: form
+        }) }}
+    </div>
+{% endblock %}

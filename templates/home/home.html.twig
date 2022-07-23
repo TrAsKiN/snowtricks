@@ -1,29 +1,45 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Bienvenue sur SnowTricks{% endblock %}
+{% block title %}Welcome on SnowTricks{% endblock %}
 
 {% block body %}
-    <a id="scroll-button" class="btn btn-dark position-fixed bottom-0 end-0 m-4" href="#tricks" role="button"><i class="bi bi-arrow-down"></i><i class="bi bi-arrow-up d-none"></i></a>
+    <a id="scroll-button" class="btn btn-dark position-fixed bottom-0 end-0 m-4" style="z-index: 1000;" href="#tricks" role="button"><i class="bi bi-arrow-down"></i><i class="bi bi-arrow-up d-none"></i></a>
     <div id="splash" class="container-fluid bg-info bg-opacity-25 p-5 vh-100 d-flex justify-content-center align-items-center">
-        <h1 class="display-1">Bienvenue sur SnowTricks</h1>
+        <h1 class="display-1">Welcome on SnowTricks</h1>
     </div>
-    <div id="tricks" class="container bg-light py-3">
-        <div class="row row-cols-5 row-cols-sm-1 row-cols-md-2">
+    <div id="tricks" class="container bg-light pt-5 pb-3 position-relative">
+        {% if is_granted('ROLE_USER') %}
+        <a href="{{ path('app_trick_new') }}" class="btn btn-sm btn-success position-absolute top-0 end-0 m-2">New Trick</a>
+        {% endif %}
+        <div class="row row-cols-1 row-cols-lg-5 g-2">
             {% for trick in tricks %}
-                <div class="col card">
-                    <img src="https://picsum.photos/500/500" class="card-img-top" alt="">
-                    <div class="card-body d-flex">
-                        <h5 class="card-title">{{ trick.name }}</h5>
-                        {% if is_granted('ROLE_USER') %}
-                        <a href="#" class="card-link">Modifier</a>
-                        <a href="#" class="card-link">Supprimer</a>
-                        {% endif %}
+                <div class="col">
+                    <div class="card p-0 position-relative">
+                        {{ component('featured_image', {
+                            trick: trick,
+                            thumbnail: true,
+                        }) }}
+                        <div class="card-body d-flex justify-content-between">
+                            <h5 class="card-title"><a href="{{ path('app_trick_show', {'slug': trick.slug}) }}" class="stretched-link link-dark text-decoration-none">{{ trick.name }}</a></h5>
+                            {% if is_granted('ROLE_USER') %}
+                            <div class="position-absolute top-0 end-0 m-2 d-flex gap-1">
+                                <a href="{{ path('app_trick_edit', {'id': trick.id}) }}" class="card-link btn btn-secondary" style="z-index: 10;"><i class="bi bi-pen"></i></a>
+                                {{ component('delete_trick_modal', {
+                                    trick: trick,
+                                    isButton: true
+                                }) }}
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
+                {{ component('delete_trick_modal', {
+                    trick: trick
+                }) }}
             {% endfor %}
         </div>
         {% if not tricks %}
-            <p class="lead text-muted fst-italic text-center">Aucun trick à afficher.</p>
+            <p class="lead text-muted fst-italic text-center">No Trick to display.</p>
         {% endif %}
     </div>
 {% endblock %}

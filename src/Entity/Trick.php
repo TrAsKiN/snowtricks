@@ -28,6 +28,9 @@ class Trick
     #[Constraints\NotBlank]
     private ?string $name;
 
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private ?string $slug;
+
     #[ORM\Column(type: 'text')]
     #[Constraints\NotBlank]
     private ?string $description;
@@ -38,11 +41,8 @@ class Trick
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'tricks')]
     private Collection $tags;
 
-    #[ORM\ManyToMany(targetEntity: Media::class, mappedBy: 'trick', orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Media::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $media;
-
-    #[ORM\Column(type: 'string', length: 255, unique: true)]
-    private ?string $slug;
 
     #[ORM\Column(type: 'datetime_immutable', options: ['default' => 'now'])]
     private ?DateTimeImmutable $createdAt;
@@ -153,33 +153,6 @@ class Trick
         return $this;
     }
 
-    /**
-     * @return Collection<int, Media>
-     */
-    public function getMedia(): Collection
-    {
-        return $this->media;
-    }
-
-    public function addMedium(Media $medium): self
-    {
-        if (!$this->media->contains($medium)) {
-            $this->media[] = $medium;
-            $medium->addTrick($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMedium(Media $medium): self
-    {
-        if ($this->media->removeElement($medium)) {
-            $medium->removeTrick($this);
-        }
-
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -212,6 +185,36 @@ class Trick
     public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Media>
+     */
+    public function getMedia(): Collection
+    {
+        return $this->media;
+    }
+
+    public function addMedium(Media $medium): self
+    {
+        if (!$this->media->contains($medium)) {
+            $this->media[] = $medium;
+            $medium->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMedium(Media $medium): self
+    {
+        if ($this->media->removeElement($medium)) {
+            // set the owning side to null (unless already changed)
+            if ($medium->getTrick() === $this) {
+                $medium->setTrick(null);
+            }
+        }
 
         return $this;
     }
