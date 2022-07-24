@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile &middot; {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container bg-light py-3 mt-5">
+        <h1>My Profile</h1>
+        {{ form(form) }}
+    </div>
+{% endblock %}

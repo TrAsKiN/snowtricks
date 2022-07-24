@@ -21,7 +21,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Constraints\NotBlank]
-    #[Constraints\Unique]
     private ?string $username;
 
     #[ORM\Column(type: 'json')]
@@ -29,7 +28,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     #[Constraints\NotBlank]
-    #[Constraints\NotCompromisedPassword]
     private string $password;
 
     #[ORM\Column(type: 'string', length: 32, unique: true, nullable: true)]
@@ -38,7 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Constraints\NotBlank]
     #[Constraints\Email]
-    #[Constraints\Unique]
     private ?string $email;
 
     public function getId(): ?int
