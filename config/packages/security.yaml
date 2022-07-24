@@ -24,8 +24,6 @@ security:
                 lifetime: 604800 # 1 week in seconds
 
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:
     security:
