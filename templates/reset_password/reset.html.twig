@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset password &middot; {{ parent() }}{% endblock %}
+
+{% block body %}
+    <div class="container bg-light py-3 mt-5">
+        <h1>Reset password</h1>
+        {{ form(form) }}
+    </div>
+{% endblock %}
