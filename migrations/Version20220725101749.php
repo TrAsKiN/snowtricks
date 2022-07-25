@@ -1,0 +1,36 @@
+<?php
+
+declare(strict_types=1);
+
+namespace DoctrineMigrations;
+
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\Migrations\AbstractMigration;
+
+/**
+ * Auto-generated Migration: Please modify to your needs!
+ */
+final class Version20220725101749 extends AbstractMigration
+{
+    public function getDescription(): string
+    {
+        return '';
+    }
+
+    public function up(Schema $schema): void
+    {
+        // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE trick ALTER created_at SET DEFAULT \'now\'');
+        $this->addSql('ALTER TABLE trick ALTER updated_at SET DEFAULT \'now\'');
+        $this->addSql('ALTER TABLE "user" ADD status VARCHAR(255) DEFAULT \'pending\' NOT NULL');
+    }
+
+    public function down(Schema $schema): void
+    {
+        // this down() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('ALTER TABLE trick ALTER created_at SET DEFAULT \'2022-07-24 17:48:01.790893\'');
+        $this->addSql('ALTER TABLE trick ALTER updated_at SET DEFAULT \'2022-07-24 17:48:01.790893\'');
+        $this->addSql('ALTER TABLE "user" DROP status');
+    }
+}

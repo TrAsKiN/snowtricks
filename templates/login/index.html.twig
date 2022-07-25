@@ -5,7 +5,7 @@
 {% block body %}
     <div class="container bg-light py-3 mt-5">
         {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="alert alert-warning" role="alert">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
         <form action="{{ path('app_login') }}" method="post">

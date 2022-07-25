@@ -14,6 +14,9 @@ use Symfony\Component\Validator\Constraints;
 #[UniqueEntity(fields: ['username', 'email'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    const PENDING = 'pending';
+    const VALIDATED = 'validated';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -21,14 +24,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
     #[Constraints\NotBlank]
-    #[Constraints\Unique]
     private ?string $username;
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
-    #[Constraints\NotBlank]
     #[Constraints\NotCompromisedPassword]
     private string $password;
 
@@ -38,8 +39,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Constraints\NotBlank]
     #[Constraints\Email]
-    #[Constraints\Unique]
     private ?string $email;
+
+    #[ORM\Column(length: 255, options: ['default' => self::PENDING])]
+    private ?string $status = self::PENDING;
 
     public function getId(): ?int
     {
@@ -114,6 +117,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
