@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Form\PasswordResetRequestType;
 use App\Form\PasswordResetType;
 use App\Repository\UserRepository;
-use Exception;
+use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,11 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/reset-password')]
 class ResetPasswordController extends AbstractController
 {
-    #[Route('/', name: 'app_password_request')]
-    public function request(
+    #[Route('/', name: 'app_password_request', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function resetPasswordRequest(
         Request $request,
         UserRepository $userRepository,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        LoggerInterface $logger
     ): Response {
         $form = $this->createForm(PasswordResetRequestType::class);
         $form->handleRequest($request);
@@ -32,22 +33,17 @@ class ResetPasswordController extends AbstractController
             $user = $userRepository->findOneBy(['username' => $form->get('username')->getData()]);
             if ($user) {
                 try {
-                    $token = bin2hex(random_bytes(16));
-                    $user->setToken($token);
-                    $userRepository->add($user, true);
-                    $email = (new TemplatedEmail())
-                        ->to($user->getEmail())
-                        ->subject("Request for password reset")
-                        ->htmlTemplate('emails/reset-password.html.twig')
-                        ->context([
-                            'token' => $token,
-                        ])
-                    ;
-                    try {
-                        $mailer->send($email);
-                    } catch (TransportExceptionInterface $e) {
-                    }
-                } catch (Exception $e) {
+                    $mailer->send(
+                        (new TemplatedEmail())
+                            ->to($user->getEmail())
+                            ->subject("Request for password reset")
+                            ->htmlTemplate('emails/reset-password.html.twig')
+                            ->context([
+                                'token' => $user->getToken(),
+                            ])
+                    );
+                } catch (TransportExceptionInterface $e) {
+                    $logger->warning($e->getMessage());
                 }
             }
             $this->addFlash(
@@ -61,8 +57,8 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    #[Route('/{token}', name: 'app_password_reset')]
-    public function reset(
+    #[Route('/{token}', name: 'app_password_reset', methods: [Request::METHOD_GET, Request::METHOD_POST])]
+    public function resetPassword(
         Request $request,
         UserRepository $userRepository,
         User $user,
