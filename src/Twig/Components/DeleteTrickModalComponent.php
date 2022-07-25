@@ -8,6 +8,6 @@ use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 #[AsTwigComponent('delete_trick_modal')]
 class DeleteTrickModalComponent
 {
-    public ?Trick $trick;
+    public ?Trick $trick = null;
     public bool $isButton = false;
 }

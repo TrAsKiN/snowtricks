@@ -16,6 +16,9 @@ class MessageType extends AbstractType
         $builder
             ->add('content', TextareaType::class, [
                 'label' => false,
+                'attr' => [
+                    'rows' => '5',
+                ]
             ])
             ->add('save', SubmitType::class, [
                 'label' => 'Leave a message',

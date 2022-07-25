@@ -56,15 +56,14 @@
                 {% if is_granted('ROLE_USER') %}
                     {{ render(path('app_message_new', {id: trick.id})) }}
                 {% endif %}
-                <hr>
                 <div>
                     {% for message in trick.messages %}
-                    <div class="card mb-3">
+                    <div class="card border-0 bg-transparent mb-3">
                         <div class="row g-0">
-                            <div class="col-md-2">
-                                <img src="{{ message.author.username }}" class="img-fluid rounded-start" alt="{{ message.author.username }}">
+                            <div class="col-md-1 pt-3 px-1">
+                                <img src="{{ asset('images/unknown_person.png') }}" class="img-fluid ratio ratio-1x1 rounded-circle" alt="{{ message.author.username }}">
                             </div>
-                            <div class="col-md-10">
+                            <div class="col">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ message.author.username }}</h5>
                                     <p class="card-text">{{ message.content|nl2br }}</p>
