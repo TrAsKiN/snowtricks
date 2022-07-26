@@ -12,6 +12,10 @@ class UserChecker implements UserCheckerInterface
 
     public function checkPreAuth(UserInterface $user): void
     {
+    }
+
+    public function checkPostAuth(UserInterface $user): void
+    {
         if (!$user instanceof User) {
             return;
         }
@@ -19,9 +23,5 @@ class UserChecker implements UserCheckerInterface
         if ($user->getStatus() === User::PENDING) {
             throw new CustomUserMessageAccountStatusException("Your account is pending validation!");
         }
-    }
-
-    public function checkPostAuth(UserInterface $user): void
-    {
     }
 }
