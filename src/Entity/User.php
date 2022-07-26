@@ -30,6 +30,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Constraints\NotBlank]
     #[Constraints\NotCompromisedPassword]
     private string $password;
 
