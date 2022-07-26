@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
+use App\Service\UserMailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Psr\Log\LoggerInterface;
@@ -24,8 +25,7 @@ class RegistrationController extends AbstractController
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
-        LoggerInterface $logger,
-        MailerInterface $mailer
+        UserMailService $mailService
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -45,20 +45,8 @@ class RegistrationController extends AbstractController
             }
             $entityManager->persist($user);
             $entityManager->flush();
-            try {
-                $mailer->send(
-                    (new TemplatedEmail())
-                        ->to($user->getEmail())
-                        ->subject("Account validation")
-                            ->htmlTemplate('emails/account-validation.html.twig')
-                        ->context([
-                            'token' => $user->getToken(),
-                        ])
-                );
-                $this->addFlash('success', "An email has been sent to you to validate your account!");
-            } catch (TransportExceptionInterface $e) {
-                $logger->warning($e->getMessage());
-            }
+            $mailService->sendRegistrationMail($user);
+            $this->addFlash('success', "An email has been sent to you to validate your account!");
             return $this->redirectToRoute('app_home');
         }
 
