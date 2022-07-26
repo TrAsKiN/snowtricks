@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\PasswordResetRequestType;
 use App\Form\PasswordResetType;
 use App\Repository\UserRepository;
+use App\Service\UserMailService;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,8 +24,7 @@ class ResetPasswordController extends AbstractController
     public function resetPasswordRequest(
         Request $request,
         UserRepository $userRepository,
-        MailerInterface $mailer,
-        LoggerInterface $logger
+        UserMailService $mailService
     ): Response {
         $form = $this->createForm(PasswordResetRequestType::class);
         $form->handleRequest($request);
@@ -32,19 +32,7 @@ class ResetPasswordController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $userRepository->findOneBy(['username' => $form->get('username')->getData()]);
             if ($user) {
-                try {
-                    $mailer->send(
-                        (new TemplatedEmail())
-                            ->to($user->getEmail())
-                            ->subject("Request for password reset")
-                            ->htmlTemplate('emails/reset-password.html.twig')
-                            ->context([
-                                'token' => $user->getToken(),
-                            ])
-                    );
-                } catch (TransportExceptionInterface $e) {
-                    $logger->warning($e->getMessage());
-                }
+                $mailService->sendResetPasswordMail($user);
             }
             $this->addFlash(
                 'success',
