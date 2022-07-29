@@ -4,7 +4,14 @@
 
 {% block body %}
     <div class="container bg-light py-3 mt-5">
-        <h1>My Profile</h1>
+        <h1>
+            My Profile
+            {% if user.image %}
+                <img src="{{ asset('uploads/images/' ~ user.image) }}" class="img-fluid ratio ratio-1x1 rounded-circle d-inline-block w-auto" alt="{{ user.username }}" style="max-height: 50px;">
+            {% else %}
+                <img src="{{ asset('images/unknown_person.png') }}" class="img-fluid ratio ratio-1x1 rounded-circle d-inline-block w-auto" alt="{{ user.username }}" style="max-height: 50px;">
+            {% endif %}
+        </h1>
         {{ form(form) }}
     </div>
 {% endblock %}
