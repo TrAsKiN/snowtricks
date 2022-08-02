@@ -61,7 +61,11 @@
                     <div class="card border-0 bg-transparent mb-3">
                         <div class="row g-0">
                             <div class="col-md-1 pt-3 px-1">
+                                {% if message.author.image %}
+                                <img src="{{ asset('uploads/images/' ~ message.author.image) }}" class="img-fluid ratio ratio-1x1 rounded-circle" alt="{{ message.author.username }}">
+                                {% else %}
                                 <img src="{{ asset('images/unknown_person.png') }}" class="img-fluid ratio ratio-1x1 rounded-circle" alt="{{ message.author.username }}">
+                                {% endif %}
                             </div>
                             <div class="col">
                                 <div class="card-body">

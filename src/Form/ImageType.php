@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Image;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -13,7 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class ImageType extends MediaType
 {
     public function __construct(
-        private readonly string $uploadPath
+        private readonly string $uploadPath,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -38,7 +40,7 @@ class ImageType extends MediaType
                 try {
                     $image->move($this->uploadPath, $filename);
                 } catch (FileException $e) {
-                    // unable to move file
+                    $this->logger->warning($e->getMessage());
                 }
                 $event->getData()->setFile($filename);
             }

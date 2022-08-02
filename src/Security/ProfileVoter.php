@@ -9,7 +9,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class ProfileVoter extends Voter
 {
-    const EDIT = 'edit';
+    public const EDIT = 'edit';
 
     protected function supports(string $attribute, mixed $subject): bool
     {

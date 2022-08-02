@@ -14,8 +14,8 @@ use Symfony\Component\Validator\Constraints;
 #[UniqueEntity(fields: ['username', 'email'], message: 'There is already an account with this username')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    const PENDING = 'pending';
-    const VALIDATED = 'validated';
+    public const PENDING = 'pending';
+    public const VALIDATED = 'validated';
 
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, options: ['default' => self::PENDING])]
     private ?string $status = self::PENDING;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
 
     public function getId(): ?int
     {
@@ -130,6 +133,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
