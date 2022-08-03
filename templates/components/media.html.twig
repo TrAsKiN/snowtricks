@@ -1,4 +1,4 @@
-<div class="d-flex row-cols-6 gap-2" {{ attributes }}>
+<div class="d-flex row-cols-6 gap-2 overflow-auto" {{ attributes }}>
     {% for medium in media %}
         {% if medium.file is defined %}
             <div class="position-relative">

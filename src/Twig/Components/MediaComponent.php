@@ -2,12 +2,11 @@
 
 namespace App\Twig\Components;
 
-use App\Entity\Media;
 use Doctrine\Common\Collections\Collection;
 use Symfony\UX\TwigComponent\Attribute\AsTwigComponent;
 
 #[AsTwigComponent('media')]
 class MediaComponent
 {
-    public Collection $media;
+    public ?Collection $media = null;
 }

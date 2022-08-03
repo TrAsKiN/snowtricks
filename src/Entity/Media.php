@@ -13,7 +13,7 @@ class Media
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    private ?int $id;
+    protected ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Trick::class, inversedBy: 'media')]
     #[ORM\JoinColumn(nullable: false)]

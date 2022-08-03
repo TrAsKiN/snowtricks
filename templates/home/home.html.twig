@@ -3,7 +3,9 @@
 {% block title %}Welcome on SnowTricks{% endblock %}
 
 {% block body %}
-    <a id="scroll-button" class="btn btn-dark position-fixed bottom-0 end-0 m-4" style="z-index: 1000;" href="#tricks" role="button"><i class="bi bi-arrow-down"></i><i class="bi bi-arrow-up d-none"></i></a>
+    <a class="btn btn-dark position-fixed bottom-0 end-0 m-4" style="z-index: 1000;" href="#tricks" role="button" data-controller="scroll">
+        <i class="bi bi-arrow-down"></i><i class="bi bi-arrow-up d-none"></i>
+    </a>
     <div id="splash" class="container-fluid bg-info bg-opacity-25 p-5 vh-100 d-flex justify-content-center align-items-center">
         <h1 class="display-1">Welcome on SnowTricks</h1>
     </div>

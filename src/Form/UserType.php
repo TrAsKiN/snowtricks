@@ -47,6 +47,7 @@ class UserType extends AbstractType
             ->add('email')
             ->add('file', FileType::class, [
                 'mapped' => false,
+                'required' => false,
                 'label' => 'Profile picture'
             ])
             ->add('plainPassword', PasswordType::class, [
@@ -69,6 +70,9 @@ class UserType extends AbstractType
                     $file->move($this->uploadPath, $filename);
                 } catch (FileException $e) {
                     $this->logger->warning($e->getMessage());
+                }
+                if ($user->getImage()) {
+                    unlink($this->uploadPath . '/' . $user->getImage());
                 }
                 $user->setImage($filename);
             }
