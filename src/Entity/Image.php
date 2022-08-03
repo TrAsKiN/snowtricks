@@ -8,13 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 class Image extends Media
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private ?int $id;
-
     #[ORM\Column(type: 'string', length: 255)]
-    private ?string $file;
+    private ?string $file = null;
 
     public function getId(): ?int
     {

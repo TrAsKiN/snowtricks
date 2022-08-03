@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Media;
 use App\Repository\MediaRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -17,13 +18,18 @@ class MediaController extends AbstractController
     public function delete(
         Request $request,
         Media $media,
-        MediaRepository $mediaRepository
+        MediaRepository $mediaRepository,
+        string $uploadPath
     ): Response {
+        $trick = $media->getTrick();
         if ($this->isCsrfTokenValid(sprintf('delete%s', $media->getId()), $request->request->get('_token'))) {
+            if ($media instanceof Image) {
+                unlink($uploadPath . '/' . $media->getFile());
+            }
             $mediaRepository->remove($media, true);
             $this->addFlash('danger', "The Media has been removed!");
         }
 
-        return $this->redirectToRoute('app_home', ['_fragment' => 'tricks'], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_trick_edit', ['id' => $trick->getId()], Response::HTTP_SEE_OTHER);
     }
 }
