@@ -3,15 +3,15 @@
 {% block title %}Welcome on SnowTricks{% endblock %}
 
 {% block body %}
-    <a class="btn btn-dark position-fixed bottom-0 end-0 m-4" style="z-index: 1000;" href="#tricks" role="button" data-controller="scroll">
+    <a class="btn btn-dark position-fixed bottom-0 end-0 m-4" style="z-index: 1000;" href="#tricks" role="button" {{ stimulus_controller('scroll') }}>
         <i class="bi bi-arrow-down"></i><i class="bi bi-arrow-up d-none"></i>
     </a>
     <div id="splash" class="container-fluid bg-info bg-opacity-25 p-5 vh-100 d-flex justify-content-center align-items-center">
         <h1 class="display-1">Welcome on SnowTricks</h1>
     </div>
-    <div id="tricks" class="container bg-light pt-5 pb-3 position-relative">
+    <div id="tricks" class="container bg-light py-3 position-relative">
         {% if is_granted('ROLE_USER') %}
-        <a href="{{ path('app_trick_new') }}" class="btn btn-sm btn-success position-absolute top-0 end-0 m-2">New Trick</a>
+        <p class="text-end mb-2"><a href="{{ path('app_trick_new') }}" class="btn btn-sm btn-success">New Trick</a></p>
         {% endif %}
         <div class="row row-cols-1 row-cols-lg-5 g-2">
             {% for trick in tricks %}
@@ -42,6 +42,29 @@
         </div>
         {% if not tricks %}
             <p class="lead text-muted fst-italic text-center">No Trick to display.</p>
+        {% endif %}
+        {% if tricks|length > max %}
+            <nav class="mt-3" aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_home', {page: page - 1}) }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for pageNumber in 1..(tricks|length / max)|round(0, 'ceil') %}
+                        <li class="page-item"><a class="page-link" href="{{ path('app_home', {page: pageNumber}) }}">{{ pageNumber }}</a></li>
+                    {% endfor %}
+                    {% if page * max < tricks|length %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('app_home', {page: page + 1}) }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
         {% endif %}
     </div>
 {% endblock %}
