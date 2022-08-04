@@ -1,5 +1,5 @@
 {% if computed.image.file is defined %}
-    <img class="img-fluid rounded-top" src="{{ asset('uploads/images/' ~ computed.image.file) }}" alt="{{ trick.name }}">
+    <img class="img-fluid rounded-top w-100" src="{{ asset('uploads/images/' ~ computed.image.file) }}" alt="{{ trick.name }}">
 {% else %}
-    <img class="img-fluid rounded-top" src="{{ thumbnail ? asset('images/no-image-thumbnail.png') : asset('images/no-image.png') }}" alt="No image">
+    <img class="img-fluid rounded-top w-100" src="{{ thumbnail ? asset('images/no-image-thumbnail.png') : asset('images/no-image.png') }}" alt="No image">
 {% endif %}
