@@ -12,9 +12,13 @@
                 {{ component('media', {media: trick.media}) }}
             {% endif %}
         </div>
-        <div class="d-flex row-cols-2 gap-2">
-            {{ form_row(form.images) }}
-            {{ form_row(form.videos) }}
+        <div class="d-flex flex-wrap flex-md-nowrap row-cols-1 row-cols-lg-2 gap-2">
+            <div>
+                {{ form_row(form.images) }}
+            </div>
+            <div>
+                {{ form_row(form.videos) }}
+            </div>
         </div>
         {{ form_row(form.description) }}
         {{ form_row(form.tags) }}

@@ -4,7 +4,11 @@
 
 {% block body %}
     <div class="container bg-light py-3 mt-5">
-        <h1>Reset password</h1>
-        {{ form(form) }}
+        <div class="p-lg-5 text-center mx-auto w-lg-50">
+            <h1 class="mb-3 mb-lg-5">Reset password</h1>
+            <div class="border rounded p-2 p-lg-5">
+                {{ form(form) }}
+            </div>
+        </div>
     </div>
 {% endblock %}

@@ -20,7 +20,7 @@
             <h1 class="display-1 position-absolute top-50 start-50 translate-middle bg-body bg-opacity-50 rounded px-3 py-1 shadow">{{ trick.name }}</h1>
         </div>
         <div class="mt-3 px-3">
-            <div class="d-flex row-cols-6 gap-2 overflow-auto">
+            <div class="d-flex row-cols-1 row-cols-lg-6 gap-2 overflow-auto mb-3">
                 {% for medium in trick.media %}
                     {% if medium.file is defined %}
                         <div>
@@ -36,8 +36,8 @@
                     {% endif %}
                 {% endfor %}
             </div>
-            <p class="p-5">{{ trick.description|nl2br }}</p>
-            <div class="w-75 mx-auto">
+            <p class="p-lg-5">{{ trick.description|nl2br }}</p>
+            <div class="px-lg-5 mx-auto">
                 <div class="text-center">
                     <ul class="list-inline me-auto">
                         <li class="list-inline-item badge text-bg-secondary">Created at {{ trick.createdAt|date() }}</li>
@@ -60,7 +60,7 @@
                     {% for message in trick.messages %}
                     <div class="card border-0 bg-transparent mb-3">
                         <div class="row g-0">
-                            <div class="col-md-1 pt-3 px-1">
+                            <div class="col-2 col-md-1 pt-3 px-1">
                                 {% if message.author.image %}
                                 <img src="{{ asset('uploads/images/' ~ message.author.image) }}" class="img-fluid ratio ratio-1x1 rounded-circle" alt="{{ message.author.username }}">
                                 {% else %}
