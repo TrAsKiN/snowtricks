@@ -4,14 +4,18 @@
 
 {% block body %}
     <div class="container bg-light py-3 mt-5">
-        <h1>
-            My Profile
-            {% if user.image %}
-                <img src="{{ asset('uploads/images/' ~ user.image) }}" class="img-fluid ratio ratio-1x1 rounded-circle d-inline-block w-auto" alt="{{ user.username }}" style="max-height: 50px;">
-            {% else %}
-                <img src="{{ asset('images/unknown_person.png') }}" class="img-fluid ratio ratio-1x1 rounded-circle d-inline-block w-auto" alt="{{ user.username }}" style="max-height: 50px;">
-            {% endif %}
-        </h1>
-        {{ form(form) }}
+        <div class="p-lg-5 text-center mx-auto w-lg-50">
+            <h1 class="mb-3 mb-lg-5">
+                My Profile
+                {% if user.image %}
+                    <img src="{{ asset('uploads/images/' ~ user.image) }}" class="img-fluid ratio ratio-1x1 rounded-circle d-inline-block w-auto" alt="{{ user.username }}" style="max-height: 50px;">
+                {% else %}
+                    <img src="{{ asset('images/unknown_person.png') }}" class="img-fluid ratio ratio-1x1 rounded-circle d-inline-block w-auto" alt="{{ user.username }}" style="max-height: 50px;">
+                {% endif %}
+            </h1>
+            <div class="border rounded p-2 p-lg-5">
+                {{ form(form) }}
+            </div>
+        </div>
     </div>
 {% endblock %}

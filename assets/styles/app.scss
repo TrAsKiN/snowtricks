@@ -1,5 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 
+@include media-breakpoint-up(md) {
+  .w-lg-50 {
+    width: 50%;
+  }
+}
+
 #splash {
   background-image: url("https://picsum.photos/id/256/1920/1080");
   background-size: cover;
