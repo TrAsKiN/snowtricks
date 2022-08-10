@@ -43,10 +43,12 @@ class TrickController extends AbstractController
 
     #[Route('/{slug}', name: 'app_trick_show', methods: [Request::METHOD_GET])]
     public function show(
+        Request $request,
         Trick $trick
     ): Response {
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'page' => $request->query->get('page', 1),
         ]);
     }
 
