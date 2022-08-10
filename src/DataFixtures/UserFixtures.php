@@ -22,9 +22,10 @@ class UserFixtures extends Fixture
         $user->setUsername('Simon')
             ->setPassword($this->passwordHasher->hashPassword(
                 $user,
-                '123456'
+                'password'
             ))
-            ->setEmail('moi@traskin.net')
+            ->setEmail('simon@localhost')
+            ->setStatus(User::VALIDATED)
         ;
         $manager->persist($user);
         $this->addReference(self::USER_REFERENCE, $user);
