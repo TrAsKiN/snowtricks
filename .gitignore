@@ -1,5 +1,6 @@
 /public/uploads/
 /.php-cs-fixer.cache
+/.prod
 
 ###> symfony/framework-bundle ###
 /.env.local
