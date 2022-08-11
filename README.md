@@ -8,10 +8,11 @@
 
 ## Installation and configuration
 
-1. Duplicate and rename the `.env` file to `.env.local` and modify the necessary information (`APP_ENV`, `APP_SECRET`, ...)
-2. Install the dependencies with `symfony composer install --optimize-autoloader`
-3. Run migrations with `symfony console doctrine:migrations:migrate --no-interaction`
-4. Add default datasets with `symfony console doctrine:fixtures:load --no-interaction`
+1. Clone or download the repository
+2. Duplicate and rename the `.env` file to `.env.local` and modify the necessary information (`APP_ENV`, `APP_SECRET`, ...)
+3. Install the dependencies with `symfony composer install --optimize-autoloader`
+4. Run migrations with `symfony console doctrine:migrations:migrate --no-interaction`
+5. Add default datasets with `symfony console doctrine:fixtures:load --no-interaction`
 
 ## Launch the local server
 
